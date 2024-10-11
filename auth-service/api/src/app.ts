@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
 
-import connectDB from './services/connectDB';
-import startServeur from './services/startService';
-import configureServices from './services/configureService';
+import connectDB from './config/connectDB';
+import startServeur from './config/startService';
+import configureServices from './config/configureService';
 
 
 const app: Application = express();
