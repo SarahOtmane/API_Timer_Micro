@@ -48,3 +48,39 @@ export const registerAUser = async (req: Request, res: Response): Promise<void> 
         res.status(500).json({ message: 'Erreur lors de la création de l\'utilisateur.' });
     }
 };
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            res.status(403).json({ message: 'Tous les champs sont requis.' });
+            return;
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            res.status(401).json({ message: 'Identifiants invalides.' });
+            return 
+        }
+
+        // Vérifiez le mot de passe
+        const isPasswordValid = await argon2.verify(user.password, password);
+        if (!isPasswordValid) {
+            res.status(401).json({ message: 'Identifiants invalides.' });
+            return 
+        }
+
+        const payload = {
+            id: user._id,
+            role: user.role
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_KEY as string, { expiresIn: '10h' });
+
+        res.status(200).json({ token });
+    } catch (error) {
+        console.error('Erreur lors de la connexion:', error);
+        res.status(500).json({ message: 'Erreur lors de la connexion.' });
+    }
+};
