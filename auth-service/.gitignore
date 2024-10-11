@@ -1,0 +1,7 @@
+db
+dbDeTest
+
+.env
+dist
+
+node_modules
