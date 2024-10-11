@@ -28,7 +28,7 @@
 
 /**
  * @swagger
- * /users/register:
+ * /auth/register:
  *   post:
  *     summary: Register a new user
  *     tags: [User]
@@ -51,7 +51,7 @@
 
 /**
  * @swagger
- * /users/login:
+ * /auth/login:
  *   post:
  *     summary: Log in a user
  *     tags: [User]
